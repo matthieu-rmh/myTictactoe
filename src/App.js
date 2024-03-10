@@ -12,6 +12,12 @@ export default function TicBoard(){
   // Turn of X or O
   const [isXTurn, setIsXTurn] = useState(true);
 
+  // Checked squares for each player
+  const [xCheckedSquares, setXCheckedSquares] = useState(Array(0));
+  const [oCheckedSquares, setOCheckedSquares] = useState(Array(0));
+
+
+
   // Lifted the click handler on each square to board component
   /*
   Use of the function : 
@@ -24,6 +30,12 @@ export default function TicBoard(){
       const newSquareValues = squareValues.slice();
       newSquareValues[squareId] = 'X';
 
+      // Push the 'X' player checked squares counter by the Id of the Square
+      let currentXCheckedSquares = xCheckedSquares.slice();
+      currentXCheckedSquares.push(squareId);
+      setXCheckedSquares(currentXCheckedSquares);
+      // console.log("X COUNT : " + currentXCheckedSquares);
+
       // Update the square values state and gives turn to 'O'
       setSquares(newSquareValues);
       setIsXTurn(false);
@@ -31,6 +43,11 @@ export default function TicBoard(){
     }else if((squareValues[squareId] == null) && !isXTurn){
       const newSquareValues = squareValues.slice();
       newSquareValues[squareId] = 'O';
+
+      // Push the 'O' player checked squares counter by the Id of the Square
+      let currentOCheckedSquares = oCheckedSquares.slice();
+      currentOCheckedSquares.push(squareId);
+      setOCheckedSquares(currentOCheckedSquares);
 
       // Update the square values state and gives turn back to 'X'
       setSquares(newSquareValues);
@@ -47,6 +64,8 @@ export default function TicBoard(){
   return(
     <>
       {rowsArray}
+      <p>X counts : {xCheckedSquares}</p>
+      <p>O counts : {oCheckedSquares}</p>
     </>
   );
 }

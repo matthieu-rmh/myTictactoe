@@ -4,10 +4,32 @@ import { useState } from 'react';
 export default function TicBoard(){
   // Instantiate the number of rows and squares on a single row
   let rowsNumber = 3;
-  let squaresNumber = 3;
+  let squaresNumber = 4;
 
   // Instantiate the values of each square as state
   const [squareValues, setSquares] = useState(Array((rowsNumber * squaresNumber)).fill(null));
+
+  // Squares indexes list
+  let squareIndexesList = squareValues.slice();
+  for (let il=0; il<squareIndexesList.length;il++){
+    squareIndexesList[il] = il;
+  }
+
+
+  // List of winning horizontal combinations
+  let horizontalCombinations = new Array();
+  
+  let tempCombination = new Array();
+
+  for(let i=0; i<squareIndexesList.length; i++){
+    tempCombination.push(squareIndexesList[i]);
+    if((i+1) % squaresNumber == 0){
+      horizontalCombinations.push(tempCombination.slice());
+      tempCombination.length = 0;
+    }
+  }
+
+  
 
   // Turn of X or O
   const [isXTurn, setIsXTurn] = useState(true);
@@ -25,7 +47,6 @@ export default function TicBoard(){
   if empty and NOT X turn, fill the square with 'O' 
   */
   function squareClick(squareId){
-    console.log(squareId);
     if ((squareValues[squareId] == null) && isXTurn) {
       const newSquareValues = squareValues.slice();
       newSquareValues[squareId] = 'X';
@@ -34,7 +55,6 @@ export default function TicBoard(){
       let currentXCheckedSquares = xCheckedSquares.slice();
       currentXCheckedSquares.push(squareId);
       setXCheckedSquares(currentXCheckedSquares);
-      // console.log("X COUNT : " + currentXCheckedSquares);
 
       // Update the square values state and gives turn to 'O'
       setSquares(newSquareValues);
@@ -64,6 +84,8 @@ export default function TicBoard(){
   return(
     <>
       {rowsArray}
+      <p>Horizontal combinations : {horizontalCombinations}</p>
+      <p>Square values : {squareIndexesList}</p>
       <p>X counts : {xCheckedSquares}</p>
       <p>O counts : {oCheckedSquares}</p>
     </>

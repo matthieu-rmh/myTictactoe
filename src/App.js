@@ -4,7 +4,7 @@ import { useState } from 'react';
 export default function TicBoard(){
   // Instantiate the number of rows and squares on a single row
   let rowsNumber = 3;
-  let squaresNumber = 4;
+  let squaresNumber = 3;
 
   // Instantiate the values of each square as state
   const [squareValues, setSquares] = useState(Array((rowsNumber * squaresNumber)).fill(null));
@@ -19,17 +19,30 @@ export default function TicBoard(){
   // List of winning horizontal combinations
   let horizontalCombinations = new Array();
   
-  let tempCombination = new Array();
+  let tempHorizontalCombination = new Array();
 
   for(let i=0; i<squareIndexesList.length; i++){
-    tempCombination.push(squareIndexesList[i]);
+    tempHorizontalCombination.push(squareIndexesList[i]);
     if((i+1) % squaresNumber == 0){
-      horizontalCombinations.push(tempCombination.slice());
-      tempCombination.length = 0;
+      horizontalCombinations.push(tempHorizontalCombination.slice());
+      tempHorizontalCombination.length = 0;
     }
   }
 
-  
+  // List of winning vertical combinations
+  let verticalCombinations = new Array();
+
+  let horizontalCombinationsCopy = horizontalCombinations.slice();
+
+  let tempVerticalCombinations = new Array();
+
+  for (let i=0; i<squaresNumber; i++){
+    for (let j=0; j < rowsNumber; j++){
+      tempVerticalCombinations.push(horizontalCombinationsCopy[j][i]);
+    }
+    verticalCombinations.push(tempVerticalCombinations.slice());
+    tempVerticalCombinations.length = 0;
+  }
 
   // Turn of X or O
   const [isXTurn, setIsXTurn] = useState(true);
@@ -85,6 +98,7 @@ export default function TicBoard(){
     <>
       {rowsArray}
       <p>Horizontal combinations : {horizontalCombinations}</p>
+      <p>Vertical combinations : {verticalCombinations}</p>
       <p>Square values : {squareIndexesList}</p>
       <p>X counts : {xCheckedSquares}</p>
       <p>O counts : {oCheckedSquares}</p>

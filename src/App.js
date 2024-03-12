@@ -93,6 +93,17 @@ export default function TicBoard(){
     rowsArray[i] = <TicRow squaresNumber={squaresNumber} rowId={i} squareClick={squareClick} squareValues={squareValues}/>;
   }
 
+  let firstDiagonalCombination = new Array();
+  let fDiagSqCounter = 0;
+  for (let i=0; i<horizontalCombinations.length; i++){
+    firstDiagonalCombination.push(horizontalCombinations[i][fDiagSqCounter]);
+
+    if(fDiagSqCounter < squaresNumber){
+      fDiagSqCounter++;
+    }
+  }
+
+  
 
   return(
     <>
@@ -102,6 +113,7 @@ export default function TicBoard(){
       <p>Square values : {squareIndexesList}</p>
       <p>X counts : {xCheckedSquares}</p>
       <p>O counts : {oCheckedSquares}</p>
+      <p>First diagonal Combination : {firstDiagonalCombination}</p>
     </>
   );
 }

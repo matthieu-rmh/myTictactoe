@@ -93,6 +93,7 @@ export default function TicBoard(){
     rowsArray[i] = <TicRow squaresNumber={squaresNumber} rowId={i} squareClick={squareClick} squareValues={squareValues}/>;
   }
 
+  // List first diagonal winning combination
   let firstDiagonalCombination = new Array();
   let fDiagSqCounter = 0;
   for (let i=0; i<horizontalCombinations.length; i++){
@@ -103,7 +104,16 @@ export default function TicBoard(){
     }
   }
 
-  
+  // List second diagonal winning combination
+  let SecondDiagonalCombination = new Array();
+  let sDiagSqCounter = squaresNumber-1;
+  for (let i=0; i<horizontalCombinations.length; i++){
+    SecondDiagonalCombination.push(horizontalCombinations[i][sDiagSqCounter]);
+
+    if (sDiagSqCounter>0){
+      sDiagSqCounter--;
+    }
+  }
 
   return(
     <>
@@ -114,6 +124,7 @@ export default function TicBoard(){
       <p>X counts : {xCheckedSquares}</p>
       <p>O counts : {oCheckedSquares}</p>
       <p>First diagonal Combination : {firstDiagonalCombination}</p>
+      <p>Second diagonal Combination : {SecondDiagonalCombination}</p>
     </>
   );
 }

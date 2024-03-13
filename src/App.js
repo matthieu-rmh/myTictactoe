@@ -117,7 +117,26 @@ export default function TicBoard(){
 
   // Combine both diagonal combinations
   let diagonalCombinations = new Array();
-  diagonalCombinations.push(...[firstDiagonalCombination, secondDiagonalCombination]);
+  diagonalCombinations.push(...[firstDiagonalCombination.slice(), secondDiagonalCombination.slice()]);
+
+  // Combine all winning combinations
+  let winningCombinations = new Array();
+  
+  for(let i=0; i<diagonalCombinations.length; i++){
+    winningCombinations.push(diagonalCombinations[i].slice());
+  }
+
+  for(let i=0; i<horizontalCombinations.length; i++){
+    winningCombinations.push(horizontalCombinations[i].slice());
+  }
+
+  for(let i=0; i<verticalCombinations.length; i++){
+    winningCombinations.push(verticalCombinations[i].slice());
+  }
+
+
+  console.log(diagonalCombinations);
+  console.log(winningCombinations);
 
   return(
     <>

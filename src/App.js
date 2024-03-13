@@ -105,15 +105,19 @@ export default function TicBoard(){
   }
 
   // List second diagonal winning combination
-  let SecondDiagonalCombination = new Array();
+  let secondDiagonalCombination = new Array();
   let sDiagSqCounter = squaresNumber-1;
   for (let i=0; i<horizontalCombinations.length; i++){
-    SecondDiagonalCombination.push(horizontalCombinations[i][sDiagSqCounter]);
+    secondDiagonalCombination.push(horizontalCombinations[i][sDiagSqCounter]);
 
     if (sDiagSqCounter>0){
       sDiagSqCounter--;
     }
   }
+
+  // Combine both diagonal combinations
+  let diagonalCombinations = new Array();
+  diagonalCombinations.push(...[firstDiagonalCombination, secondDiagonalCombination]);
 
   return(
     <>
@@ -124,7 +128,7 @@ export default function TicBoard(){
       <p>X counts : {xCheckedSquares}</p>
       <p>O counts : {oCheckedSquares}</p>
       <p>First diagonal Combination : {firstDiagonalCombination}</p>
-      <p>Second diagonal Combination : {SecondDiagonalCombination}</p>
+      <p>Second diagonal Combination : {secondDiagonalCombination}</p>
     </>
   );
 }

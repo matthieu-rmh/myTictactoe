@@ -9,12 +9,16 @@ export default function TicBoard(){
   // Instantiate the number of rows and squares on a single row
   let rowsNumber = 3;
   let squaresNumber = 3;
+  
 
   
   // The winner display
   const [winnerDisplay, setWinnerDisplay] = useState(""); 
 
   const [buttonsDisabled, setButtonsDisabled] = useState(false); 
+
+  // Wether to show the reset button or not 
+  const [showResetButton, setShowResetButton] = useState(false); 
 
 
   // Instantiate the values of each square as state
@@ -110,12 +114,13 @@ export default function TicBoard(){
   }
 
   // Resets all states
-  function resetGame(){
+  function resetGame(rowsNb, squaresNb){
     setWinnerDisplay("");
     setButtonsDisabled(false);
-    // setSquares(Array((rowsNb * squaresNb)).fill(null));
+    setSquares(Array((rowsNb * squaresNb)).fill(null));
     setXCheckedSquares(new Array(0));
     setOCheckedSquares(new Array(0));
+    setShowResetButton(false);
   }
 
    // Lifted the click handler on each square to board component
@@ -143,6 +148,7 @@ export default function TicBoard(){
       if (isXwinning){
         setWinnerDisplay("X WON");
         setButtonsDisabled(true);
+        setShowResetButton(true);
       }
 
     }else if((squareValues[squareId] == null) && !isXTurn){
@@ -163,24 +169,24 @@ export default function TicBoard(){
        if (isOwinning){
          setWinnerDisplay("O WON");
          setButtonsDisabled(true);
+         setShowResetButton(true);
        }
     }
   }
 
 
-
   return(
     <>
-    <b>{winnerDisplay}</b>
+    <b style={{fontSize: 50 +'px'}}>{winnerDisplay}</b>
       {rowsArray}
-      <ResetButton resetGame={resetGame}/>
-      <p>Horizontal combinations : {horizontalCombinations}</p>
-      <p>Vertical combinations : {verticalCombinations}</p>
-      <p>Square values : {squareIndexesList}</p>
-      <p>X counts : {xCheckedSquares}</p>
-      <p>O counts : {oCheckedSquares}</p>
-      <p>First diagonal Combination : {firstDiagonalCombination}</p>
-      <p>Second diagonal Combination : {secondDiagonalCombination}</p>
+      <ResetButton resetGame={resetGame} showResetButton={showResetButton} rowsNb={rowsNumber} squaresNb={squaresNumber}/>
+      <p className="log-text">Horizontal combinations : {horizontalCombinations}</p>
+      <p className="log-text">Vertical combinations : {verticalCombinations}</p>
+      <p className="log-text">Square values : {squareIndexesList}</p>
+      <p className="log-text">X counts : {xCheckedSquares}</p>
+      <p className="log-text">O counts : {oCheckedSquares}</p>
+      <p className="log-text">First diagonal Combination : {firstDiagonalCombination}</p>
+      <p className="log-text">Second diagonal Combination : {secondDiagonalCombination}</p>
     </>
   );
 }
@@ -203,14 +209,17 @@ function TicRow({squaresNumber, rowId, squareClick, squareValues, buttonsDisable
 
 // Component of a single square
 function Square({squareId, squareClick, squareValue, buttonsDisabled}) {
-
   return (
         <button className="square" disabled={buttonsDisabled} onClick={() => squareClick(squareId)}>{squareValue}</button>
     );
 }
 
-function ResetButton(resetGame, rowsNb, squaresNb){
+// Reset button component
+function ResetButton({resetGame, showResetButton, rowsNb, squaresNb}){
+  
+  let resetButtonDisplay = showResetButton ? {display: "block"} : {display: "none"}; 
+
   return(
-    <button onClick={resetGame}>Reset game</button>
+    <button className="reset-btn" onClick={() => resetGame(rowsNb, squaresNb)} style={resetButtonDisplay}>Reset game</button>
   );
 }

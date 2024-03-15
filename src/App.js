@@ -69,7 +69,7 @@ export default function TicBoard(){
 
   let rowsArray = Array(rowsNumber);
   for (let i = 0; i < rowsArray.length; i++) {
-    rowsArray[i] = <TicRow squaresNumber={squaresNumber} rowId={i} squareClick={squareClick} squareValues={squareValues} buttonsDisabled={buttonsDisabled}/>;
+    rowsArray[i] = <TicRow key={i} squaresNumber={squaresNumber} rowId={i} squareClick={squareClick} squareValues={squareValues} buttonsDisabled={buttonsDisabled}/>;
   }
 
   // List first diagonal winning combination
@@ -192,12 +192,12 @@ export default function TicBoard(){
 }
 
 // Row component of the board
-function TicRow({squaresNumber, rowId, squareClick, squareValues, buttonsDisabled}){
+function TicRow({key, squaresNumber, rowId, squareClick, squareValues, buttonsDisabled}){
   let rowSquares = Array(squaresNumber);
 
   for (let i=0; i < rowSquares.length; i++){
     let squarePosition = (rowId * squaresNumber) + i;
-    rowSquares[i] = <Square squareId={squarePosition} squareClick={squareClick} squareValue={squareValues[squarePosition]} buttonsDisabled={buttonsDisabled}/>;
+    rowSquares[i] = <Square key={squarePosition} squareId={squarePosition} squareClick={squareClick} squareValue={squareValues[squarePosition]} buttonsDisabled={buttonsDisabled}/>;
   };
 
   return(
@@ -208,7 +208,7 @@ function TicRow({squaresNumber, rowId, squareClick, squareValues, buttonsDisable
 }
 
 // Component of a single square
-function Square({squareId, squareClick, squareValue, buttonsDisabled}) {
+function Square({key, squareId, squareClick, squareValue, buttonsDisabled}) {
   return (
         <button className="square" disabled={buttonsDisabled} onClick={() => squareClick(squareId)}>{squareValue}</button>
     );

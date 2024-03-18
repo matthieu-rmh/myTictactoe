@@ -113,6 +113,13 @@ export default function TicBoard(){
   for(let i=0; i<verticalCombinations.length; i++){
     winningCombinations.push(verticalCombinations[i].slice());
   }
+  
+  // Go back to a certain turn number
+
+  function backToTurn(turnId){
+    console.log(historyList[turnId]);
+    setSquares(historyList[turnId].slice());
+  }
 
   // Resets all states
   function resetGame(rowsNb, squaresNb){
@@ -122,6 +129,7 @@ export default function TicBoard(){
     setXCheckedSquares(new Array(0));
     setOCheckedSquares(new Array(0));
     setShowResetButton(false);
+    setHistoryList(new Array(0));
   }
 
    // Lifted the click handler on each square to board component
@@ -185,13 +193,20 @@ export default function TicBoard(){
     }
   }
 
-  console.log(historyList);
+  // Creating the buttons to go back at a certain turn in the game history
+  let historyButtons = new Array(historyList.length);
+  for(let i=0; i < historyButtons.length; i++){
+    historyButtons[i] = <HistoryButton turnId={i} backToTurn={backToTurn}/>;
+  }
 
   return(
     <>
     <b style={{fontSize: 50 +'px'}}>{winnerDisplay}</b>
       {rowsArray}
       <ResetButton resetGame={resetGame} showResetButton={showResetButton} rowsNb={rowsNumber} squaresNb={squaresNumber}/>
+      <div id="back-turn-btns-container">
+        {historyButtons}
+      </div>
       <p className="log-text">Square values : {squareValues}</p>
       <p className="log-text">Horizontal combinations : {horizontalCombinations}</p>
       <p className="log-text">Vertical combinations : {verticalCombinations}</p>
@@ -234,5 +249,12 @@ function ResetButton({resetGame, showResetButton, rowsNb, squaresNb}){
 
   return(
     <button className="reset-btn" onClick={() => resetGame(rowsNb, squaresNb)} style={resetButtonDisplay}>Reset game</button>
+  );
+}
+
+// History button component
+function HistoryButton({turnId, backToTurn}){
+  return(
+    <button className="back-turn-btn" onClick={() => backToTurn(turnId)}>Return to turn {turnId + 1}</button>
   );
 }

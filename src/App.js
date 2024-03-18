@@ -10,7 +10,8 @@ export default function TicBoard(){
   let rowsNumber = 3;
   let squaresNumber = 3;
   
-
+  // Instantiate the history feature with a base state to be pushed each turn
+  const [historyList, setHistoryList] = useState(Array(0));
   
   // The winner display
   const [winnerDisplay, setWinnerDisplay] = useState(""); 
@@ -143,6 +144,11 @@ export default function TicBoard(){
       setSquares(newSquareValues);
       setIsXTurn(false);
 
+      // Push the history list
+      let currentHistory = historyList.slice();
+      currentHistory.push(newSquareValues);
+      setHistoryList(currentHistory);
+
       // Check if X won
       let isXwinning = isPlayerWinning(squareId, currentXCheckedSquares, winningCombinations);
       if (isXwinning){
@@ -164,6 +170,11 @@ export default function TicBoard(){
       setSquares(newSquareValues);
       setIsXTurn(true);
 
+      // Push the history list
+      let currentHistory = historyList.slice();
+      currentHistory.push(newSquareValues);
+      setHistoryList(currentHistory);
+
        // Check if O won
        let isOwinning = isPlayerWinning(squareId, currentOCheckedSquares, winningCombinations);
        if (isOwinning){
@@ -174,12 +185,14 @@ export default function TicBoard(){
     }
   }
 
+  console.log(historyList);
 
   return(
     <>
     <b style={{fontSize: 50 +'px'}}>{winnerDisplay}</b>
       {rowsArray}
       <ResetButton resetGame={resetGame} showResetButton={showResetButton} rowsNb={rowsNumber} squaresNb={squaresNumber}/>
+      <p className="log-text">Square values : {squareValues}</p>
       <p className="log-text">Horizontal combinations : {horizontalCombinations}</p>
       <p className="log-text">Vertical combinations : {verticalCombinations}</p>
       <p className="log-text">Square values : {squareIndexesList}</p>
